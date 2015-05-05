@@ -1,0 +1,59 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript">
+  function getQueryParams(qs)
+  {
+    var tmp = qs.split('+').join(' ');
+
+    var params = {}, tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(tmp))
+    {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+  }
+
+  function hex2a(hex)
+  {
+    var str = '';
+    for (var i = 0; i < hex.length; i += 2)
+    {
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    }
+    return str;
+  }
+
+  $(function() {
+    var qp = getQueryParams(document.location.search);
+    console.log('HEX: ' + qp.postback_url)
+    console.log('B64: ' + hex2a(qp.postback_url));
+    var postback_url = window.atob(hex2a(qp.postback_url));
+    console.log('PB: ' + postback_url);
+
+    var result = {
+      'dataentry_uid': qp.dataentry_uid,
+      'score': parseInt(Math.random() * 10),
+      'textual_answer': '220 felett' 
+    };
+
+    $.ajax({
+      url  : postback_url,
+      data : { 'result': JSON.stringify(result) },
+      type : 'POST'
+    }).success(function(){
+      $('img')[0].src = 'http://m.memegen.com/diut6h.jpg';
+    }).fail(function(){
+      $('img')[0].src = 'http://3.bp.blogspot.com/-aJI4le2upzw/VQTxKowx3mI/AAAAAAAABB8/qi0MRMJR0Ic/s1600/Grumpy_cat_quotes_no-5.jpg';
+    });
+  });
+  </script>
+</head>
+<body>
+  <img width="320" src="http://dribbble.s3.amazonaws.com/users/4613/screenshots/911982/jar-loading.gif"></img>
+</body>
+</html>
