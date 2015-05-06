@@ -30,30 +30,41 @@
 
   $(function() {
     var qp = getQueryParams(document.location.search);
-    console.log('HEX: ' + qp.postback_url)
-    console.log('B64: ' + hex2a(qp.postback_url));
-    var postback_url = window.atob(hex2a(qp.postback_url));
-    console.log('PB: ' + postback_url);
+    if (qp.postback_url != null)
+    {
+      console.log('HEX: ' + qp.postback_url)
+      console.log('B64: ' + hex2a(qp.postback_url));
+      var postback_url = window.atob(hex2a(qp.postback_url));
+      console.log('PB: ' + postback_url);
 
-    var result = {
-      'dataentry_uid': qp.dataentry_uid,
-      'score': parseInt(Math.random() * 10),
-      'textual_answer': '220 felett' 
-    };
-
-    $.ajax({
-      url  : postback_url,
-      data : { 'result': JSON.stringify(result) },
-      type : 'POST'
-    }).success(function(){
-      $('img')[0].src = 'http://m.memegen.com/diut6h.jpg';
-    }).fail(function(){
-      $('img')[0].src = 'http://3.bp.blogspot.com/-aJI4le2upzw/VQTxKowx3mI/AAAAAAAABB8/qi0MRMJR0Ic/s1600/Grumpy_cat_quotes_no-5.jpg';
-    });
+      var result = {
+        'dataentry_uid': qp.dataentry_uid,
+        'score': parseInt(Math.random() * 10),
+        'textual_answer': '220 felett' 
+      };
+  
+      $('#result').val(JSON.stringify(result));
+      $('form').attr('action', postback_url);
+   
+      setTimeout(function(){
+        if (confirm('Score ' + result.score + '. Submit?'))
+        {
+          $('#submit').click();
+        }
+        else
+        {
+          $('#submit').show();
+        }
+      }, 2000);
+    }
   });
   </script>
 </head>
 <body>
-  <img width="320" src="http://dribbble.s3.amazonaws.com/users/4613/screenshots/911982/jar-loading.gif"></img>
+  <img width="320" src="http://media.giphy.com/media/x2woMnCz4W0Vy/giphy.gif"></img>
+  <form method="POST">
+    <input id="result" name="result" type="hidden" />
+    <input style="display: none" id="submit" type="submit" value="Submit" />
+  </form>
 </body>
 </html>
