@@ -44,6 +44,7 @@
       };
   
       $('#result').val(JSON.stringify(result));
+      $('#auth_id').val(qp.auth_id);
       $('form').attr('action', postback_url);
    
       setTimeout(function(){
@@ -64,6 +65,7 @@
   <img width="320" src="http://media.giphy.com/media/x2woMnCz4W0Vy/giphy.gif"></img>
   <form method="POST">
     <input id="result" name="result" type="hidden" />
+    <input id="auth_id" name="auth_id" type="hidden" />
     <input style="display: none" id="submit" type="submit" value="Submit" />
   </form>
 </body>
