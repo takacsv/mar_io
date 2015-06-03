@@ -34,19 +34,19 @@
     {
       console.log('HEX: ' + qp.postback_url)
       console.log('B64: ' + hex2a(qp.postback_url));
-      var postback_url = window.atob(hex2a(qp.postback_url));
+      var postback_url = window.atob(hex2a(qp.postback_url).replace(/\s/g, ''));
       console.log('PB: ' + postback_url);
 
       var result = {
         'dataentry_uid': qp.dataentry_uid,
         'score': parseInt(Math.random() * 10),
-        'textual_answer': '220 felett' 
+        'textual_answer': '220 felett'
       };
-  
+
       $('#result').val(JSON.stringify(result));
       $('#auth_id').val(qp.auth_id);
       $('form').attr('action', postback_url);
-   
+
       setTimeout(function(){
         if (confirm('Score ' + result.score + '. Submit?'))
         {
